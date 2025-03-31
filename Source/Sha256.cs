@@ -26,31 +26,29 @@ namespace FMT.Hash
             ArgumentNullException.ThrowIfNullOrEmpty(strVal);
             ArgumentNullException.ThrowIfNullOrEmpty(strSeed);
 
-            uint hashVal = 5381;
+            var buf = new byte[512];
+
+            var sha256Context = SHA256.Create();
 
             // Lower the input value;
             strVal = strVal.ToLower();
             // Lower the input value;
-            strSeed = strVal.ToLower();
+            strSeed = strSeed.ToLower();
 
-            // Length is the strVal + 1 (null terminator)
-            var lenVal = strVal.Length + 1;
+            // Length is the strVal
+            var lenVal = strVal.Length;
+            buf = Resize(buf, lenVal + 1); // +1 for the \0 terminator. probably not actually required...
 
-            // Add the str into a new buffer with the new size (null terminator)
-            var bufferOfStrVal = new byte[lenVal];
-            for (var iBufSize = 0; iBufSize < lenVal; iBufSize++)
-                bufferOfStrVal[iBufSize] = (byte)strVal[iBufSize];
-
-            // Hash the buffer data once against the buf[0] size * lenVal
-            var bytes = new byte[256];
-            var r = SHA256.HashData(new MemoryStream(Encoding.UTF8.GetBytes(strVal)), new Span<byte>(bytes));
-            var r2 = SHA256.HashData(bufferOfStrVal);
-            hashVal = (uint)BitConverter.ToUInt64(r2, 0);
+            // Hash the buffer data once against the buf
+            buf = sha256Context.ComputeHash(buf, 0, 1 * lenVal);
 
             // Hash the buffer data again against the buf[0] size * strSeed.Length
-            // TODO: ^^^^^
+            var lenSeed = strSeed.Length;
+            buf = Resize(buf, lenSeed);
+            buf = sha256Context.ComputeHash(buf, 0, 1 * lenSeed);
 
             // Finalize the compute
+            uint hashVal = (uint)BitConverter.ToUInt64(buf);
 
             // Return the hash as a BigEndian hashed value + 28
             return ToBigEndian((hashVal + 28));
@@ -62,6 +60,15 @@ namespace FMT.Hash
             var bytesOfLittleEndian = BitConverter.TryWriteBytes(spanage, littleEndian);
             spanage.Reverse();
             return BitConverter.ToUInt32(spanage);
+        }
+
+        private static byte[] Resize(byte[] bytes, int length)
+        {
+            var buf = new byte[length];
+            for (var iBufSize = 0; iBufSize < length && iBufSize < bytes.Length; iBufSize++)
+                buf[iBufSize] = bytes[iBufSize];
+
+            return buf;
         }
         //{
         //	using fixed_string_buf = eastl::fixed_string<char, 512>;

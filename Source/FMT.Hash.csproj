@@ -12,7 +12,7 @@
 	  <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 	  <!-- Allow to be packaged on Pack -->
 	  <IsPackable>true</IsPackable>
-	  <PackageVersion>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</PackageVersion>
+	  <PackageVersion>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HH001"))</PackageVersion>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 
 	  <PackageId>FMT.Hash</PackageId>
@@ -21,26 +21,23 @@
 	  <Company>Paulov / FMTDev</Company>
 	  <Copyright>Paulov / FMTDev / FMT 2019-2025</Copyright>
 	  <Description>A package designed for Frostbite Modding Tool. Useful for plugins and other tooling.</Description>
-	  <PackageProjectUrl>https://github.com/FMTDev/FMT.Releases</PackageProjectUrl>
-	  <RepositoryUrl>https://github.com/FMTDev/FMT.Releases</RepositoryUrl>
+	  <PackageProjectUrl>https://github.com/FMTDev/FMT.Hash</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/FMTDev/FMT.Hash</RepositoryUrl>
 	  <PackageTags>fmt; frostbite modding tool;</PackageTags>
 	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	  <PackageIcon>FMTIcon24.png</PackageIcon>
+	  <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="HashDepot" Version="3.1.0" />
+    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
   </ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
 		<DebugSymbols>False</DebugSymbols>
 		<DebugType>None</DebugType>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<None Include="README.md" Pack="true" PackagePath="\" />
-		<None Include="LICENSE.md" Pack="true" PackagePath="\" />
-	</ItemGroup>
 
   <ItemGroup>
     <None Update="FMTIcon24.png">
