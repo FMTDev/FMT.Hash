@@ -3,6 +3,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+*extracted_strings.txt
+
 # Ignore Mods
 # fbmods
 *.lmod
