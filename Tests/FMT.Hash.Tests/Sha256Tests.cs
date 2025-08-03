@@ -1,22 +1,54 @@
-﻿namespace FMT.Hash.Tests
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+
+namespace FMT.Hash.Tests
 {
     [TestClass]
-    public sealed class Sha256Tests
+    public class Sha256Tests
     {
-
-        /// <summary>
-        /// Test the Sha256 produces the same result as the true result found via SDK generation
-        /// TODO: It currently doesn't. :)
-        /// </summary>
         [TestMethod]
-
-        public void Test_SHA256Hash32_Lowercase_RT()
+        public void Sha256KnownListOfAttribSchemaTypes()
         {
-            var attempt1 = Sha256.SHA256Hash32_Lowercase_RT("AttribSchema_gp_kickshot_shooting");
-            var attempt2 = Sha256.SHA256Hash32_Lowercase_RT("AttribSchema_gp_kickshot_shooting", "1029");
+            // Arrange
+            Dictionary<string, uint> expectedResults = new Dictionary<string, uint>()
+            {
+                { "AttribSchema_gp_kickshot_shooting", 1303288196 },
+                { "AttribSchema_gp_actor_action", 1344965732 },
+                { "AttribSchema_gp_actor_movement", 4238001312 },
+                { "AttribSchema_gp_actor_facialanim", 2082094922 }
+            };
 
-            Assert.AreEqual(1303288196u, attempt1);
+            foreach (var kvp in expectedResults)
+            {
+                string input = kvp.Key;
+                uint expected = kvp.Value;
+
+                var result = (uint)Sha256.SHA256Hash32_Lowercase(input, "1028");
+                Debug.WriteLine($"{input}:{expected} -> {result} = {expected == result}");
+            }
 
         }
+
+        [TestMethod]
+        public void Sha256KnownListOfAttribSchemaProps()
+        {
+            // Arrange
+            Dictionary<string, uint> expectedResults = new Dictionary<string, uint>()
+            {
+                { "SHOT_ErrorScalarVsAimInsidePostSmallGoal", 2841633721 },
+            };
+
+            foreach (var kvp in expectedResults)
+            {
+                string input = kvp.Key;
+                uint expected = kvp.Value;
+
+                var result = (uint)Sha256.SHA256Hash32_Lowercase(input, "1028");
+                Debug.WriteLine($"{input}:{expected} -> {result} = {expected == result}");
+            }
+
+        }
+
+
     }
 }

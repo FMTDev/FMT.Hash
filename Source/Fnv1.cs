@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace FMT.Hash
 {
@@ -8,7 +6,7 @@ namespace FMT.Hash
     {
         public static int HashString(string span)
         {
-            return Fnv1a.HashString(span);
+            return Fnv1a.HashStringUTF8(span);
         }
 
         /// <summary>
@@ -59,7 +57,7 @@ namespace FMT.Hash
             return (int)hash;
         }
 
-        public static int HashString(string span)
+        public static int HashStringUTF8(string span)
         {
             if (span == null)
             {
@@ -69,6 +67,20 @@ namespace FMT.Hash
             Span<byte> span2 = ((length > 1024) ? ((Span<byte>)new byte[length]) : stackalloc byte[length]);
             Span<byte> bytes = span2;
             Encoding.UTF8.GetBytes(span, bytes);
+            return Hash(bytes);
+        }
+
+
+        public static int HashStringASCII(string span)
+        {
+            if (span == null)
+            {
+                throw new ArgumentNullException("span");
+            }
+            int length = Encoding.ASCII.GetByteCount(span);
+            Span<byte> span2 = ((length > 1024) ? ((Span<byte>)new byte[length]) : stackalloc byte[length]);
+            Span<byte> bytes = span2;
+            Encoding.ASCII.GetBytes(span, bytes);
             return Hash(bytes);
         }
 
