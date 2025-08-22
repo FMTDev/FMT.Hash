@@ -2,7 +2,7 @@ import re
 
 def extract_valid_ascii_strings(file_path, output_path, encoding='utf-8', min_length=3):
     valid_strings = []
-    ascii_alpha = re.compile(r'^[A-Za-z_]+$')
+    ascii_alpha = re.compile(r'^[A-Za-z_0-9]+$')
 
     with open(file_path, 'rb') as f:
         buffer = bytearray()
@@ -22,7 +22,7 @@ def extract_valid_ascii_strings(file_path, output_path, encoding='utf-8', min_le
     # Save results to file
     with open(output_path, 'w', encoding='utf-8') as out_file:
         for i, s in enumerate(valid_strings, 1):
-            out_file.write(f"{i}: {s}\n")
+            out_file.write(f"{s}\n")
 
 
 
