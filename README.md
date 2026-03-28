@@ -1,6 +1,6 @@
 ﻿# FMT.Hash
 
-[![NuGet latest version](https://badgen.net/nuget/v/FMT.Hash/latest)](https://nuget.org/packages/FMT.Hash)
+[![Download FMT.Hash](https://img.shields.io/nuget/v/FMT.Hash?style=for-the-badge)](https://www.nuget.org/packages/FMT.Hash/) [![Download FMT.Hash](https://img.shields.io/nuget/dt/FMT.Hash?style=for-the-badge)](https://www.nuget.org/packages/FMT.Hash/)
 
 ## Description
 
